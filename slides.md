@@ -32,7 +32,8 @@ css: unocss
 - C#11의 새로운 기능인 static abstract members 이해하기
 - 다른 언어들은 어떻게 제공하는지 살펴보기
 - 어떤 용도에 사용하는지 살펴보기
-- 왜 F# 커뮤니티가 반발하는지 알아보기
+- 이 기능에 반발하는 이유 알아보기
+- F# SRTP 기능 알아보기
 
 ---
 
@@ -40,9 +41,15 @@ css: unocss
 
 > Sang Kil Cha | F# Korea Slack
 >
+> <br />
+>
 > 이번 .NET7에서 상당히 큰 언어적인 변화가 있었습니다. static abstract member를 선언할 수 있게 된 점인데,
 >
 > F#7에서도 지원하게 되었습니다. 이게 상당히 매력적이면서도 위험한 언어적인 요소라 F#개발자들이 엄청 고심한 흔적이 엿보입니다.
+>
+> 이 부분을 읽어보시길 추천드립니다.
+>
+> <br />
 >
 > 개인적으로는 F#이 언어적인 아름다움을 더 갖게 되어 좋네요..
 
@@ -72,11 +79,11 @@ css: unocss
 
 [Announcing F# 7 | Static abstract members support in interfaces](https://devblogs.microsoft.com/dotnet/announcing-fsharp-7/#static-abstract-members-support-in-interfaces)
 
-> 이러한 단점들 때문에,
+> 이러한 단점들 때문에, F#에서
 >
-> F#에서 static abstract method를 포함한 interface를 선언하거나 _warning FS3535_
+> _[warning FS3535]_ static abstract method를 포함한 interface를 선언하거나
 >
-> 제네릭 형식 매개변수에 대한 제약 조건 상황 밖에서, 타입으로 사용되면 _warning FS3536_
+> _[warning FS3536]_ 제네릭 형식 매개변수에 대한 제약 조건 상황 밖에서, 타입으로 사용되면
 >
 > 경고를 표시합니다.
 
@@ -97,7 +104,7 @@ css: unocss
 
 <br/>
 
-.NET 6에서 preview 기능으로 들어갔으며 .NET 7에서 정식 기능으로 편입
+.NET 6에서 미리보기 기능으로 들어갔으며 .NET 7에서 정식 기능으로 편입
 
 `static virtual members in interface` 기능은 **Generic Math Support**를 위해 추가된 언어 기능 중 하나
 
@@ -149,17 +156,9 @@ void whatIsYourFavorite<T>(T iHaveAFavorite) where T : IFavorite
   Console.WriteLine($"{iHaveAFavorite.GetType().Name}'s favorite is {T.Favorite}");
 }
 
-whatIsYourFavorite(new Dog());
-whatIsYourFavorite(new Cat());
-whatIsYourFavorite(new Tiger());
-```
-
-<br />
-
-```
-Dog's favorite is Bones
-Cat's favorite is Fish
-Tiger's favorite is Human
+whatIsYourFavorite(new Dog()); // Dog's favorite is Bones
+whatIsYourFavorite(new Cat()); // Cat's favorite is Fish
+whatIsYourFavorite(new Tiger()); // Tiger's favorite is Human
 ```
 
 ---
@@ -210,7 +209,12 @@ void doNumericThings<T1, T2>(T1 t1, T2 t2)
 
 > ... 이 기능(static abstract member)을 통해 연산자가 number-like 인터페이스 안에 (abstract로) 선언될 수 있었다 ...
 
-_Generic Math 기능이 원하는 표현 방식을 위해 인터페이스에 연산자를 선언하고 싶었구나!_
+_Generic Math 기능이 원하는 표현 방식_
+
+1. 연산자를 통한 수학적 표현
+2. 피연산자는 현재 스코프에서는 일반 인터페이스로 타입 제약된 상태로 형식이 매우 자유로움
+
+_을 위해 인터페이스에 연산자를 선언하고 싶었구나!_
 
 ---
 
@@ -233,3 +237,17 @@ _Generic Math 기능이 원하는 표현 방식을 위해 인터페이스에 연
 
 - 작업자는 최대 공통 인터페이스로 작업하여 코드량을 줄이면서도
 - 사용자는 해당 인터페이스를 지원하는 타입들을 더 많이 사용할 수 있음
+
+---
+
+# 다른 언어에서는 이 기능을 뭐라고 할까?
+
+## General drawbacks
+
+Statically-constrained qualified genericity is strongly distortive of the practical experience of using a programming language, whether in personal, framework-building, team or community situations. The effect of these distortions are well known from:
+
+- Standard ML in the 1990s (e.g. SML functors and "fully functorized programming")
+- C++ templates
+- Haskell (type classes and their many technical extensions, abstract uses, generalizations and intensely intricate community discussions)
+- Scala (implicits, their uses and abuses)
+- Swift (traits, their uses and abuses)

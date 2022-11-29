@@ -1,11 +1,5 @@
-# Welcome to [Slidev](https://github.com/slidevjs/slidev)!
+# Slides for static abstract-members
 
-To start the slide show:
+[View as Website](https://naramdash.github.io/slides-for-static-abstract-members/1)
 
-- `npm install`
-- `npm run dev`
-- visit http://localhost:3030
-
-Edit the [slides.md](./slides.md) to see the changes.
-
-Learn more about Slidev on [documentations](https://sli.dev/).
+- at: dotnet conf 2023 x seoul
