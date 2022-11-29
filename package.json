@@ -1,0 +1,17 @@
+{
+  "name": "static-abstract-members",
+  "private": true,
+  "scripts": {
+    "build": "slidev build",
+    "dev": "slidev --remote",
+    "export": "slidev export"
+  },
+  "dependencies": {
+    "@slidev/cli": "^0.37.0",
+    "@slidev/theme-default": "*",
+    "@slidev/theme-seriph": "*"
+  },
+  "volta": {
+    "node": "18.12.1"
+  }
+}
