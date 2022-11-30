@@ -23,16 +23,16 @@ drawings:
 css: unocss
 ---
 
-# C#11 _static abstract members_ <br/> 그리고 <br/> F# _SRTP_
+# C#11 static abstract members <br/> & <br/> F# SRTP
 
 ---
 
-# 목표
+# 발표 구성 및 목표
 
-- C#11의 새로운 기능인 static abstract members 이해하기
-- 다른 언어들은 어떻게 제공하는지 살펴보기
-- 어떤 용도에 사용하는지 살펴보기
-- 이 기능에 반발하는 이유 알아보기
+- F# interfaces-with-static-abstract-members RFC 문서를 중심으로 내용 작성됨
+- C# static abstract interface 기능에 대해 이해하기
+- 다른 언어에서의 활용법 둘러보기
+- 우려되는 점을 알아보기
 - F# SRTP 기능 알아보기
 
 ---
@@ -100,7 +100,7 @@ css: unocss
 
 ---
 
-# static abstract members의 역사
+# static abstract members란?
 
 <br/>
 
