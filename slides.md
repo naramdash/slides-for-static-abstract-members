@@ -1,6 +1,6 @@
 ---
 # try also 'default' to start simple
-theme: seriph
+theme: default
 # random image from a curated Unsplash collection by Anthony
 # like them? see https://unsplash.com/collections/94734566/slidev
 background: black
@@ -27,6 +27,23 @@ css: unocss
 
 ---
 
+# 자기 소개
+
+## 현 직장
+
+- 군집 물류 관제 솔루션을 개발하는 DaimResearch
+- 웹 기반 프론트엔드
+  - 실시간 모니터링
+  - 리플레이 기능을 개발중입니다
+
+## 관심 있는 것
+
+- TypeScript & 웹 브라우저 기반 기술
+- 닷넷 & F#
+- 덜 일하고 많이 받는 기술
+
+---
+
 # 발표 구성 및 목표
 
 - F# interfaces-with-static-abstract-members RFC 문서를 중심으로 내용 작성됨
@@ -34,6 +51,8 @@ css: unocss
 - 다른 언어에서의 활용법 둘러보기
 - 우려되는 점을 알아보기
 - F# SRTP 기능 알아보기
+
+틀린 내용이 있다면 봐주십시오... 😿
 
 ---
 
@@ -102,8 +121,6 @@ css: unocss
 
 # static abstract members란?
 
-<br/>
-
 .NET 6에서 미리보기 기능으로 들어갔으며 .NET 7에서 정식 기능으로 편입
 
 `static virtual members in interface` 기능은 **Generic Math Support**를 위해 추가된 언어 기능 중 하나
@@ -129,11 +146,13 @@ css: unocss
 interface IFavorite
 {
   static abstract string Favorite { get; }
+  static virtual int SizeAtAge(int age) => age;
 }
 
 class Dog : IFavorite
 {
   public static string Favorite { get => "Bones"; }
+  public static int SizeAtAge(int age) => age * 2;
 }
 class Cat : IFavorite
 {
@@ -141,7 +160,8 @@ class Cat : IFavorite
 }
 class Tiger : Cat, IFavorite
 {
-  public static string Favorite { get => "Human"; }
+  new public static string Favorite { get => "Human"; }
+  public static int SizeAtAge(int age) => age * 4;
 }
 
 ```
@@ -154,11 +174,20 @@ class Tiger : Cat, IFavorite
 void whatIsYourFavorite<T>(T iHaveAFavorite) where T : IFavorite
 {
   Console.WriteLine($"{iHaveAFavorite.GetType().Name}'s favorite is {T.Favorite}");
+  Console.WriteLine($"{iHaveAFavorite.GetType().Name}': size at age 5 :  {T.SizeAtAge(5)}");
 }
 
-whatIsYourFavorite(new Dog()); // Dog's favorite is Bones
-whatIsYourFavorite(new Cat()); // Cat's favorite is Fish
-whatIsYourFavorite(new Tiger()); // Tiger's favorite is Human
+whatIsYourFavorite(new Dog());
+// Dog's favorite is Bones
+// Dog': size at age 5 :  10
+
+whatIsYourFavorite(new Cat());
+// Cat's favorite is Fish
+// Cat': size at age 5 :  5
+
+whatIsYourFavorite(new Tiger());
+// Tiger's favorite is Human
+// Tiger': size at age 5 :  20
 ```
 
 ---
@@ -339,9 +368,3 @@ _을 위해 인터페이스에 연산자를 선언하고 싶었구나!_
 - 함께 일하기
 - 복잡성의 팽창
 - 움냠냠
-
----
-
-# END
-
----
