@@ -269,43 +269,43 @@ _을 위해 인터페이스에 연산자를 선언하고 싶었구나!_
 
 ---
 
-# 다른 언어에서의 비슷한 기능 - 1. Java
+# Java: Static Method in Interface
 
-- Java 8에서 Default Method와 동시에 static method 추가됨
-- 하지만 Java에는 operator overriding이 없음
+근데 이름만 같고 목적과 사용법이 매우 다르다
 
-```
-
-```
+- Java 8에서 인터페이스에 기본 메소드와 정적 메소드 추가됨
+- 인터페이스 내의 정적 메소드는 반드시 구현을 가지고 있어야 함
+- 제네릭 메소드의 타입 파라미터로 클래스의 정적 메소드를 호출할 수는 없음
+- 기능을 제공하되, 인스턴스화 될 수 없게끔 하는 제약을 제공 (OOP 기반)
+- Java에는 연산자 오버로딩이 없음
 
 [Static method in Interface in Java](https://www.geeksforgeeks.org/static-method-in-interface-in-java)
 
 [Static and Default Methods in Interfaces in Java](https://www.baeldung.com/java-static-default-methods)
 
----
-
-# 다른 언어에서의 비슷한 기능 - 2. Scala
-
-- Scala는 instance method가 메소드로서 동작
-- trait에 static을 활용하늑가?
-
-```
-
-```
+[What is the purpose of a static method in interface from Java 8?](https://stackoverflow.com/questions/45780952/what-is-the-purpose-of-a-static-method-in-interface-from-java-8)
 
 ---
 
-# 다른 언어에서의 비슷한 기능 - 3. C++
+# Scala: method, implicit
 
-- 템플레이트를 활용
+일단 정적 메소드일 필요가 없다는 것이 큰 차이점, 그리고 implicit이 scala에서 코드 축약의 핵심?
 
-```
+- Scala는 인스턴스 메소드가 메소드로서 동작
+- 타입별로 암시적 변환 코드를 구현하여 인자의 타입을 맞출 수도 있고 [(C#도 마찬가지)](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/user-defined-conversion-operators)
+- 제네릭, 트레이트, 암시적 파라미터를 통해 제네릭한 코드로 타입별 기능을 제공하고 깔끔한 코드를 작성할 수 있다
 
-```
+[TOUR OF SCALA | Operator](https://docs.scala-lang.org/tour/operators.html#inner-main)
+
+[Implicit Conversions in Scala](https://www.geeksforgeeks.org/implicit-conversions-in-scala/)
+
+[SCALA 3 — BOOK | Type Class](https://docs.scala-lang.org/scala3/book/types-type-classes.html)
+
+[Type Classes. Scala의 Implicit 마법의 결정체](https://signal9.co.kr/2019/10/09/scala_type_class/)
 
 ---
 
-# 다른 언어에서의 비슷한 기능 - 4. Haskell
+# Haskell: Type Class
 
 - 타입클래스를 활용
 
@@ -315,7 +315,7 @@ _을 위해 인터페이스에 연산자를 선언하고 싶었구나!_
 
 ---
 
-# 다른 언어에서의 비슷한 기능 - 5. F# SRTP
+# F#: SRTP
 
 - SRTP를 활용
 

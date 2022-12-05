@@ -21,15 +21,15 @@ using static Utils.ConsoleUtil;
   whatIsYourFavorite(new Cat());
   whatIsYourFavorite(new Tiger());
 
-  void whatIsYourFavorite2(IFavorite iHaveAFavorite)
-  {
-    Console.WriteLine($"{iHaveAFavorite.GetType().Name}'s favorite is {IFavorite.Favorite}");
-    Console.WriteLine($"{iHaveAFavorite.GetType().Name}': size at age 5 :  {IFavorite.SizeAtAge(5)}");
-  }
+  // void whatIsYourFavorite2(IFavorite iHaveAFavorite)
+  // {
+  //   Console.WriteLine($"{iHaveAFavorite.GetType().Name}'s favorite is {IFavorite.Favorite}");
+  //   Console.WriteLine($"{iHaveAFavorite.GetType().Name}': size at age 5 :  {IFavorite.SizeAtAge(5)}");
+  // }
 
-  whatIsYourFavorite2(new Dog());
-  whatIsYourFavorite2(new Cat());
-  whatIsYourFavorite2(new Tiger());
+  // whatIsYourFavorite2(new Dog());
+  // whatIsYourFavorite2(new Cat());
+  // whatIsYourFavorite2(new Tiger());
 }
 #endregion
 
