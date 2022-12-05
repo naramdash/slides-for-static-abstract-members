@@ -240,14 +240,108 @@ _을 위해 인터페이스에 연산자를 선언하고 싶었구나!_
 
 ---
 
-# 다른 언어에서는 이 기능을 뭐라고 할까?
+# 다른 언어에서의 비슷한 기능 - 1. Java
 
-## General drawbacks
+- Java 8에서 Default Method와 동시에 static method 추가됨
+- 하지만 Java에는 operator overriding이 없음
 
-Statically-constrained qualified genericity is strongly distortive of the practical experience of using a programming language, whether in personal, framework-building, team or community situations. The effect of these distortions are well known from:
+```
 
-- Standard ML in the 1990s (e.g. SML functors and "fully functorized programming")
-- C++ templates
-- Haskell (type classes and their many technical extensions, abstract uses, generalizations and intensely intricate community discussions)
-- Scala (implicits, their uses and abuses)
-- Swift (traits, their uses and abuses)
+```
+
+[Static method in Interface in Java](https://www.geeksforgeeks.org/static-method-in-interface-in-java)
+
+[Static and Default Methods in Interfaces in Java](https://www.baeldung.com/java-static-default-methods)
+
+---
+
+# 다른 언어에서의 비슷한 기능 - 2. Scala
+
+- Scala는 instance method가 메소드로서 동작
+- trait에 static을 활용하늑가?
+
+```
+
+```
+
+---
+
+# 다른 언어에서의 비슷한 기능 - 3. C++
+
+- 템플레이트를 활용
+
+```
+
+```
+
+---
+
+# 다른 언어에서의 비슷한 기능 - 4. Haskell
+
+- 타입클래스를 활용
+
+```
+
+```
+
+---
+
+# 다른 언어에서의 비슷한 기능 - 5. F# SRTP
+
+- SRTP를 활용
+
+```
+
+```
+
+---
+
+# 왜 문제인가? - 일반적인 단점
+
+- 단점 1
+- 단점 2
+- 단점 3
+
+---
+
+# 왜 문제인가? - 일반적인 단점: 시나리오
+
+---
+
+# 왜 문제인가? - 타입제약이 아닌 타입으로 사용
+
+---
+
+# 왜 문제인가? - 제네릭 타입 코드가 함수 패스 코드보다 덜 제네릭함
+
+---
+
+# 왜 문제인가? - 정적 추상 멤버의 구현은 매개변수화 되지 않으며 어느것에도 닫히지 않는다.
+
+---
+
+# 왜 문제인가? - F#의 구현 다향성의 증가
+
+---
+
+# RFC의 결론
+
+- 안써도 문제없었다는 언어들~ 문장 발췌
+- 그리고 도입했으니 어떻게하라는 그 맨 첨 리스트 다시 상기
+
+---
+
+# 나의 평가
+
+- 또 하나 기능이 늘었다
+- 일반화 프로그래밍의 도입
+- 커뮤니티의 고인물화?
+- 함께 일하기
+- 복잡성의 팽창
+- 움냠냠
+
+---
+
+# END
+
+---
