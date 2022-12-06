@@ -342,23 +342,45 @@ void doNumericThings<T1, T2>(T1 t1, T2 t2)
 
 컴파일 시간에 실제 타입이 정해지는 타입 파라미터, [제네릭은 런타임 시점에서 결정](https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/generics/generics-in-the-run-time)
 
--
-
+```fsharp
+fsi> let inline add a b = a + b ;;
+val inline add:
+  a: ^a -> b: ^b -> 'c when (^a or ^b) : (static member (+) : ^a * ^b -> 'c)
 ```
 
+```fsharp
+fsi> add 4 2 ;;
+val it: int = 6
+
+fsi> add -2.0  4.7 ;;
+val it: float = 2.7
+
+fsi> add "123" "가나다" ;;
+val it: string = "123가나다"
 ```
+
+- 타입 파라미터가 특정 멤버를 가지게 제약할 수 있음
+- C++의 Function Template과 비슷하지만 [인라인 함수](https://learn.microsoft.com/en-us/dotnet/fsharp/language-reference/functions/inline-functions)에만 쓸 수 있음
+
+<MyLinks>
+
+[Statically Resolved Type Parameters](https://learn.microsoft.com/en-us/dotnet/fsharp/language-reference/generics/statically-resolved-type-parameters)
+
+[[ C++ ] 함수 템플릿(Function Template)과 템플릿 함수(Template Function)](https://musket-ade.tistory.com/entry/C-%ED%95%A8%EC%88%98-%ED%85%9C%ED%94%8C%EB%A6%BFFunction-Template%EA%B3%BC-%ED%85%9C%ED%94%8C%EB%A6%BF-%ED%95%A8%EC%88%98Template-Function)
+
+</MyLinks>
 
 ---
 
 # 왜 문제인가? - 일반적인 단점
 
-- 단점 1
-- 단점 2
-- 단점 3
-
----
-
-# 왜 문제인가? - 일반적인 단점: 시나리오
+- 최대 추상화 충동을 유발
+- 더 많은 형식 수준 계산에 대한 후속 요구
+- 형식 수준 디버깅, 프로파일링 등에 대한 컴파일러 지원에 대한 후속 요구
+- 마이크로 인터페이스의 확산
+- 라이브러리 디자인에 안정적인 지점이 없음
+- 올바른 정도의 일반성에 대해 논쟁의 여지가 있습니다
+- 컴파일러 및 툴링은 큰 인터페이스 목록에서 느려짐
 
 ---
 
