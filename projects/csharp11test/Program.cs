@@ -20,16 +20,6 @@ using static Utils.ConsoleUtil;
   whatIsYourFavorite(new Dog());
   whatIsYourFavorite(new Cat());
   whatIsYourFavorite(new Tiger());
-
-  // void whatIsYourFavorite2(IFavorite iHaveAFavorite)
-  // {
-  //   Console.WriteLine($"{iHaveAFavorite.GetType().Name}'s favorite is {IFavorite.Favorite}");
-  //   Console.WriteLine($"{iHaveAFavorite.GetType().Name}': size at age 5 :  {IFavorite.SizeAtAge(5)}");
-  // }
-
-  // whatIsYourFavorite2(new Dog());
-  // whatIsYourFavorite2(new Cat());
-  // whatIsYourFavorite2(new Tiger());
 }
 #endregion
 
@@ -41,8 +31,8 @@ using static Utils.ConsoleUtil;
     where T1 : INumber<T1>
     where T2 : INumber<T2>
   {
-    var t1sZero = T1.Zero;
-    Console.WriteLine($"{nameof(t1sZero)}({t1sZero})'s type: {t1sZero.GetType().Name}");
+    var t1sOne = T1.One;
+    Console.WriteLine($"{nameof(t1sOne)}({t1sOne})'s type: {t1sOne.GetType().Name}");
 
     var t2sZero = T2.Zero;
     Console.WriteLine($"{nameof(t2sZero)}({t2sZero})'s type: {t2sZero.GetType().Name}");
@@ -62,15 +52,15 @@ using static Utils.ConsoleUtil;
     where T1 : INumber<T1>
     where T2 : INumber<T2>
   {
-    var t1sZero =
+    var t1sOne =
       t1
         .GetType()
         .GetRuntimeProperties()
-        .Where(property => property.Name.Contains("Zero"))
+        .Where(property => property.Name.Contains("One"))
         .First()
         .GetValue(null);
 
-    Console.WriteLine($"{nameof(t1sZero)}({t1sZero})'s type: {t1sZero.GetType().Name}");
+    Console.WriteLine($"{nameof(t1sOne)}({t1sOne})'s type: {t1sOne.GetType().Name}");
 
     var t2sZero =
       t2
@@ -89,3 +79,20 @@ using static Utils.ConsoleUtil;
 }
 #endregion
 
+#region 4. BAD CALLING
+{
+  // A static virtual or abstract interface member 
+  // can be accessed only on a type parameter. 
+  // [csharp11test]csharp(CS8926)
+  // IInterface.GetYourNumber();
+
+  void doNumericThings(IFavorite t1, IFavorite t2)
+  {
+    // A static virtual or abstract interface member 
+    // can be accessed only on a type parameter. 
+    // [csharp11test]csharp(CS8926)
+    // var sizeatage = IFavorite.SizeAtAge(2);
+  }
+}
+
+#endregion

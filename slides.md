@@ -23,7 +23,7 @@ drawings:
 css: unocss
 ---
 
-# C#11 static abstract members <br/> & <br/> F# SRTP
+# C#11 static abstract members <br/> 이해와 대비
 
 ---
 
@@ -47,12 +47,13 @@ css: unocss
 # 발표 구성 및 목표
 
 - F# interfaces-with-static-abstract-members RFC 문서를 중심으로 내용 작성됨
-- C# static abstract interface 기능에 대해 이해하기
-- 다른 언어에서의 활용법 둘러보기
+- C# static abstract interface 기능 이해하기
+- 다른 언어의 비슷한 기능 둘러보기
 - 우려되는 점을 알아보기
-- F# SRTP 기능 알아보기
 
+<div style="margin-top: 14em; color: aqua;">
 틀린 내용이 있다면 봐주십시오... 😿
+</div>
 
 ---
 
@@ -80,11 +81,9 @@ css: unocss
 
 ---
 
-# F# 7에서의 경고
+# F#7에서의 경고
 
-<br />
-
-[F# RFC FS-1124 - Interfaces with static abstract members (IWSAMs)](https://github.com/fsharp/fslang-design/blob/main/FSharp-7.0/FS-1124-interfaces-with-static-abstract-members.md#guidance)
+## [F# RFC FS-1124 - Interfaces with static abstract members](https://github.com/fsharp/fslang-design/blob/main/FSharp-7.0/FS-1124-interfaces-with-static-abstract-members.md#guidance)
 
 > 지침
 >
@@ -96,7 +95,9 @@ css: unocss
 > - 구현이 안정적이고 폐쇄형이며 논쟁의 여지가 없는 유형에서만 IWSAM을 구현하십시오
 > - 구성 프레임워크의 기초로 IWSAM을 사용하지 마십시오
 
-[Announcing F# 7 | Static abstract members support in interfaces](https://devblogs.microsoft.com/dotnet/announcing-fsharp-7/#static-abstract-members-support-in-interfaces)
+<br />
+
+## [Announcing F# 7 | Static abstract members support in interfaces](https://devblogs.microsoft.com/dotnet/announcing-fsharp-7/#static-abstract-members-support-in-interfaces)
 
 > 이러한 단점들 때문에, F#에서
 >
@@ -134,9 +135,15 @@ css: unocss
 
 <br />
 
-- [.NET 6 | Static abstract members declared in interfaces](https://learn.microsoft.com/en-us/dotnet/core/compatibility/core-libraries/6.0/static-abstract-interface-methods)
-- [.NET 7 | Tutorial: Explore C# 11 feature - static virtual members in interfaces](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/tutorials/static-virtual-interface-members)
-- [C# 11 | Generic Math Support](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-11#generic-math-support)
+<MyLinks>
+
+[.NET 6 | Static abstract members declared in interfaces](https://learn.microsoft.com/en-us/dotnet/core/compatibility/core-libraries/6.0/static-abstract-interface-methods)
+
+[.NET 7 | Tutorial: Explore C# 11 feature - static virtual members in interfaces](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/tutorials/static-virtual-interface-members)
+
+[C# 11 | Generic Math Support](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-11#generic-math-support)
+
+</MyLinks>
 
 ---
 
@@ -192,41 +199,23 @@ whatIsYourFavorite(new Tiger());
 
 ---
 
-# Generic Math 예제
+# Generic Math란?
 
-<span />
-
-with `static abstract members`
+[Generic Math](https://learn.microsoft.com/en-us/dotnet/standard/generics/math)
 
 ```csharp
-void doNumericThings<T1, T2>(T1 t1, T2 t2)
-  where T1 : INumber<T1>
-  where T2 : INumber<T2>
+static T Add<T>(T left, T right) where T : INumber<T>
 {
-  var t1sZero = T1.Zero;
-  var t2sZero = T2.Zero;
+    return left + right;
 }
 ```
 
-without `static abstract members` with `reflection`
-
-```csharp
-void doNumericThings<T1, T2>(T1 t1, T2 t2)
-  where T1 : INumber<T1>
-  where T2 : INumber<T2>
-{
-  // System.Numerics.INumberBase<System.Int32>.Zero
-  var t1sZero = t1.GetType().GetRuntimeProperties().Where(property => property.Name.Contains("Zero")).First().GetValue(null);
-  // System.Numerics.INumberBase<System.Int16>.Zero
-  var t2sZero = t2.GetType().GetRuntimeProperties().Where(property => property.Name.Contains("Zero")).First().GetValue(null);
-}
-```
+- 수학적 연산을 지원하는 파라미터의 타입을 제네릭하게 선언하고
+- 위 제약 안에서 연산자를 통한 표현식 지원
 
 ---
 
-# Generic Math 공식 문서 해석 (1)
-
-[Generic Math](https://learn.microsoft.com/en-us/dotnet/standard/generics/math)
+# Generic Math의 static abstract members 필요성
 
 <br />
 
@@ -247,9 +236,40 @@ _을 위해 인터페이스에 연산자를 선언하고 싶었구나!_
 
 ---
 
-# Generic Math 공식 문서 해석 (2)
+# 연산자와 관계없는 Generic Math
 
-[Generic Math](https://learn.microsoft.com/en-us/dotnet/standard/generics/math)
+<span />
+
+with `static abstract members`
+
+```csharp
+void doNumericThings<T1, T2>(T1 t1, T2 t2)
+  where T1 : INumber<T1>
+  where T2 : INumber<T2>
+{
+  var t1sOne = T1.One;
+  var t2sZero = T2.Zero;
+}
+```
+
+without `static abstract members` with `reflection`
+
+```csharp
+void doNumericThings<T1, T2>(T1 t1, T2 t2)
+  where T1 : INumber<T1>
+  where T2 : INumber<T2>
+{
+  // System.Numerics.INumberBase<System.Int32>.One
+  var t1sOne = t1.GetType().GetRuntimeProperties().Where(property => property.Name.Contains("One")).First().GetValue(null);
+  // System.Numerics.INumberBase<System.Int16>.Zero
+  var t2sZero = t2.GetType().GetRuntimeProperties().Where(property => property.Name.Contains("Zero")).First().GetValue(null);
+}
+```
+
+---
+
+# Generic Math가 가져올 변화
+
 <br />
 
 > 이러한 인터페이스를 사용할 수 있다는 것은 제네릭 형식 또는 메서드의 **형식 매개 변수를 "숫자와 유사(number-like)"하도록** 제한할 수 있음
@@ -258,7 +278,7 @@ _을 위해 인터페이스에 연산자를 선언하고 싶었구나!_
 
 <br />
 
-> 이러한 혁신을 통해 **수학적 연산**을 일반적으로, 즉 작업 중인 **정확한 유형을 알 필요 없이** 수행할 수 있습니다.
+> 이러한 혁신을 통해 수학적 연산을 일반적으로, 즉 작업 중인 **정확한 유형을 알 필요 없이** 수행할 수 있습니다.
 >
 > 라이브러리 작성자는 "중복" 오버로드를 제거하여 코드 베이스를 단순화할 수 있기 때문에...
 >
@@ -276,8 +296,10 @@ _을 위해 인터페이스에 연산자를 선언하고 싶었구나!_
 - Java 8에서 인터페이스에 기본 메소드와 정적 메소드 추가됨
 - 인터페이스 내의 정적 메소드는 반드시 구현을 가지고 있어야 함
 - 제네릭 메소드의 타입 파라미터로 클래스의 정적 메소드를 호출할 수는 없음
-- 기능을 제공하되, 인스턴스화 될 수 없게끔 하는 제약을 제공 (OOP 기반)
+- 기능을 제공하되, 인스턴스화 될 수 없게끔 하는 제약을 제공 (기존에는 final + private constructor)
 - Java에는 연산자 오버로딩이 없음
+
+<MyLinks>
 
 [Static method in Interface in Java](https://www.geeksforgeeks.org/static-method-in-interface-in-java)
 
@@ -285,15 +307,22 @@ _을 위해 인터페이스에 연산자를 선언하고 싶었구나!_
 
 [What is the purpose of a static method in interface from Java 8?](https://stackoverflow.com/questions/45780952/what-is-the-purpose-of-a-static-method-in-interface-from-java-8)
 
+</MyLinks>
+
 ---
 
-# Scala: method, implicit
+# Scala: method, implicit, trait
 
-일단 정적 메소드일 필요가 없다는 것이 큰 차이점, 그리고 implicit이 scala에서 코드 축약의 핵심?
+연산자가 정적 메소드일 필요가 없다는 것이 큰 차이점, 그리고 implicit이 scala에서 코드 축약의 핵심?
 
 - Scala는 인스턴스 메소드가 메소드로서 동작
 - 타입별로 암시적 변환 코드를 구현하여 인자의 타입을 맞출 수도 있고 [(C#도 마찬가지)](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/user-defined-conversion-operators)
-- 제네릭, 트레이트, 암시적 파라미터를 통해 제네릭한 코드로 타입별 기능을 제공하고 깔끔한 코드를 작성할 수 있다
+- 제네릭, 트레이트, 암시적 파라미터를 통해
+  - 기존 타입에 대한 서브 타이핑 없이 기능을 확장하고
+  - 깔끔하고 제네릭한 코드로 타입별 기능을 사용할 수 있다.
+  - 타입 클래스 패턴이라 부르며, Haskell의 TypeClass에서 파생
+
+<MyLinks>
 
 [TOUR OF SCALA | Operator](https://docs.scala-lang.org/tour/operators.html#inner-main)
 
@@ -303,21 +332,17 @@ _을 위해 인터페이스에 연산자를 선언하고 싶었구나!_
 
 [Type Classes. Scala의 Implicit 마법의 결정체](https://signal9.co.kr/2019/10/09/scala_type_class/)
 
----
+[Type Classes in Scala and Haskell](https://www.slideshare.net/hermannhueck/type-classes-in-scala-and-haskell)
 
-# Haskell: Type Class
-
-- 타입클래스를 활용
-
-```
-
-```
+</MyLinks>
 
 ---
 
-# F#: SRTP
+# F#: Statically Resolved Type Parameters
 
-- SRTP를 활용
+컴파일 시간에 실제 타입이 정해지는 타입 파라미터, [제네릭은 런타임 시점에서 결정](https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/generics/generics-in-the-run-time)
+
+-
 
 ```
 

@@ -21,3 +21,8 @@ class Tiger : Cat, IFavorite
   new public static string Favorite { get => "Human"; }
   public static int SizeAtAge(int age) => age * 4;
 }
+
+interface IInterface
+{
+  static virtual int GetYourNumber() { return 5; }
+}
