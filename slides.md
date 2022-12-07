@@ -79,6 +79,10 @@ css: unocss
 - 위험한?
 - 아름다움?
 
+<!--
+123123
+-->
+
 ---
 
 # F#7에서의 경고
@@ -372,6 +376,87 @@ val it: string = "123가나다"
 
 ---
 
+# `double` in .net6.0 vs .net7.0
+
+<div class="flex flex-row w-full gap-4" style="">
+<v-clicks>
+<div class='flex-1'>
+
+## .net6.0
+
+```csharp
+struct Double :
+  IComparable,
+  IComparable<Double>,
+  IConvertible,
+  IEquatable<Double>,
+  ISpanFormattable,
+  IFormattable
+{
+  ...
+}
+```
+
+</div>
+
+<div class='flex-1'>
+
+## .net7.0
+
+<div class='overflow-scroll h-23em'>
+
+```csharp
+struct Double :
+  IComparable,
+  IComparable<Double>,
+  IConvertible,
+  IEquatable<Double>,
+  ISpanFormattable,
+  IFormattable,
+
+  IParsable<Double>,
+  ISpanParsable<Double>,
+  IAdditionOperators<Double, Double, Double>,
+  IAdditiveIdentity<Double, Double>,
+  IBinaryFloatingPointIeee754<Double>,
+  IBinaryNumber<Double>,
+  IBitwiseOperators<Double, Double, Double>,
+  IComparisonOperators<Double, Double, bool>,
+  IEqualityOperators<Double, Double, bool>,
+  IDecrementOperators<Double>,
+  IDivisionOperators<Double, Double, Double>,
+  IIncrementOperators<Double>,
+  IModulusOperators<Double, Double, Double>,
+  IMultiplicativeIdentity<Double, Double>,
+  IMultiplyOperators<Double, Double, Double>,
+  INumber<Double>, INumberBase<Double>,
+  ISubtractionOperators<Double, Double, Double>,
+  IUnaryNegationOperators<Double, Double>,
+  IUnaryPlusOperators<Double, Double>,
+  IExponentialFunctions<Double>,
+  IFloatingPointConstants<Double>,
+  IFloatingPoint<Double>,
+  ISignedNumber<Double>,
+  IFloatingPointIeee754<Double>,
+  IHyperbolicFunctions<Double>,
+  ILogarithmicFunctions<Double>,
+  IPowerFunctions<Double>,
+  IRootFunctions<Double>,
+  ITrigonometricFunctions<Double>,
+  IMinMaxValue<Double>
+{
+  ...
+}
+```
+
+</div>
+
+</div>
+</v-clicks>
+</div>
+
+---
+
 # 왜 문제인가? - 일반적인 단점
 
 - 최대 추상화 충동을 유발
@@ -415,3 +500,7 @@ val it: string = "123가나다"
 - 함께 일하기
 - 복잡성의 팽창
 - 자바랑 C# 볼수록 안비슷하다
+
+```
+
+```
