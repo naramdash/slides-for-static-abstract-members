@@ -93,6 +93,7 @@ using static Utils.ConsoleUtil;
     // [csharp11test]csharp(CS8926)
     // var sizeatage = IFavorite.SizeAtAge(2);
   }
+  // INumber<T> Add<T>(INumber<T> left, INumber<T> right) => left + right;
 }
 
 #endregion

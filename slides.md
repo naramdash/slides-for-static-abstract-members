@@ -462,9 +462,15 @@ struct Double :
   - 더 많은 추상화를 통해
   - 더 적은 코드로 더 넓은 범위를 커버하여
   - 재사용성의 증가
+
+<br />
+
 - 재사용성의 증가는
   - 매우 매력있고
   - 합당해보이나
+
+<br />
+
 - 실제로는
   - 재사용되는 양은 극히 적으며
   - 굉장한 시간의 낭비이며
@@ -476,32 +482,83 @@ struct Double :
 
 - 일반 수학의 표현법과 활용을 다른 분야에서 적용하길 바랄 것이고
   - 그 분야(라이브러리, 프레임워크)들은 최대 추상화를 구현하기 위한 리소스를 소모해야할 것
+
+<br />
+
 - 인터페이스는 점점 세분화될 것이며
   - 나누어진 인터페이스를 이해하는 것은 프로그래머 개개인의 시간과 노력으로 지불됨
 
 ---
 
-# 💥 3. **적합한** 일반화 지점을 찾기
+# 💥 3. 끊나지 않는 **적합한** 일반화 지점 찾기
 
 - 추상화의 정도는 절대로 적합한 지점을 찾을 수 없으며
-  - 항상 비생산적인 논쟁을 불러일으킬 것이며
-  - 소프트웨어 엔지니어링의 다른 합리적인 목표가 무시될 위험이 있다
+- 항상 비생산적인 논쟁을 불러일으킬 것이며
+- 소프트웨어 엔지니어링의 다른 합리적인 목표가 무시될 위험이 있다
 
 ---
 
-# `💥⚠️❌` A. 타입 제약이 아닌 타입을 사용
+# 👨‍💻 A. 타입 제약이 아닌 타입을 사용
 
-<br />
+```csharp{1-3,8}
+// The type 'T' cannot be used as type parameter 'TSelf' in the generic type or method 'INumber<TSelf>'.
+// There is no boxing conversion or type parameter conversion from 'T' to 'System.Numerics.INumber<T>'.
+// [csharp11test]csharp(CS0314)
 
-This is really very, very subtle - beginner users are often drawn to generic arithmetic, and any beginner will surely think that INumber<'T> can be used as a type for a generic number. But it can't - it can only be used as a type-constraint in generic code. Perhaps analyzers will check this, or special warnings added.
+// Operator '+' cannot be applied to operands of type 'INumber<T>' and 'INumber<T>'
+// [csharp11test]csharp(CS0019)
+
+public static INumber<T> Add<T>(INumber<T> left, INumber<T> right) => left + right;
+```
+
+위 코드는 동작하지 않음
+
+```csharp{3}
+interface INumber<TSelf> : ... IAdditionOperators<TSelf, TSelf, TSelf> ... {}
+
+interface IAdditionOperators<TSelf, TOther, TResult> where TSelf : IAdditionOperators<TSelf, TOther, TResult>?
+{
+  static abstract TResult operator +(TSelf left, TOther right);
+}
+
+```
+
+`IAdditionOperators`의 `TSelf` 타입 제약을 만족하지 못하기 때문에, (메소드의 타입 인자 `T`가 해당 제약을 만족해야함)
+
+# 👨‍💻 A. 타입 제약이 아닌 타입을 사용
+
+```csharp{1-3,8}
+// The type 'T' cannot be used as type parameter 'TSelf' in the generic type or method 'INumber<TSelf>'.
+// There is no boxing conversion or type parameter conversion from 'T' to 'System.Numerics.INumber<T>'.
+// [csharp11test]csharp(CS0314)
+
+// Operator '+' cannot be applied to operands of type 'INumber<T>' and 'INumber<T>'
+// [csharp11test]csharp(CS0019)
+
+public static INumber<T> Add<T>(INumber<T> left, INumber<T> right) => left + right;
+```
+
+위 코드는 동작하지 않음
+
+```csharp{3}
+interface INumber<TSelf> : ... IAdditionOperators<TSelf, TSelf, TSelf> ... {}
+
+interface IAdditionOperators<TSelf, TOther, TResult> where TSelf : IAdditionOperators<TSelf, TOther, TResult>?
+{
+  static abstract TResult operator +(TSelf left, TOther right);
+}
+
+```
+
+`IAdditionOperators`의 `TSelf` 타입 제약을 만족하지 못하기 때문에, (메소드의 타입 인자 `T`가 해당 제약을 만족해야함)
 
 ---
 
-# `💥⚠️❌` B. 제네릭 타입 코드가 함수 패스 코드보다 덜 제네릭함
+# 👨‍💻 B. 고차함수가 더 간단하고 일반적일수 있음
 
 ---
 
-# `💥⚠️❌` C. 정적 추상 멤버의 구현은 매개변수화 되지 않으며 어느것에도 닫히지 않는다.
+# 👨‍💻 C. 정적 추상 멤버의 구현은 매개변수화 되지 않으며 어느것에도 닫히지 않는다.
 
 ---
 
