@@ -13,5 +13,5 @@ static class Functions
   // and 'INumber<T>' [csharp11test]csharp(CS0019)
 
   // public static INumber<T> Add<T>(INumber<T> left, INumber<T> right) => left + right;
-  public static INumber<T> Add<T: INumber<T>>(INumber<T> left, INumber<T> right) => left + right;
+  public static INumber<T> Add<T>(T left, T right) where T : INumber<T> => left + right;
 }

@@ -11,6 +11,8 @@ type Color =
 
 let bbb: Double = 1
 
+type ISomeFunctionality<'T when 'T :> ISomeFunctionality<'T>> =
+    static abstract DoSomething: 'T -> 'T
 
 type Vector =
     { x: float

@@ -3,7 +3,6 @@
 theme: default
 # random image from a curated Unsplash collection by Anthony
 # like them? see https://unsplash.com/collections/94734566/slidev
-background: black
 # apply any windi css classes to the current slide
 class: "text-center"
 # https://sli.dev/custom/highlighters.html
@@ -498,49 +497,24 @@ struct Double :
 
 ---
 
-# 👨‍💻 A. 타입 제약이 아닌 타입을 사용
+# 👨‍💻 A. 타입 제약이 아닌 타입으로 사용
+
+하면 안됨
 
 ```csharp{1-3,8}
 // The type 'T' cannot be used as type parameter 'TSelf' in the generic type or method 'INumber<TSelf>'.
 // There is no boxing conversion or type parameter conversion from 'T' to 'System.Numerics.INumber<T>'.
-// [csharp11test]csharp(CS0314)
+// csharp(CS0314)
 
 // Operator '+' cannot be applied to operands of type 'INumber<T>' and 'INumber<T>'
-// [csharp11test]csharp(CS0019)
+// csharp(CS0019)
 
-public static INumber<T> Add<T>(INumber<T> left, INumber<T> right) => left + right;
+public static INumber<T> Add<T>(INumber<T> left, INumber<T> right) => left + right; // 💥error
 ```
 
 위 코드는 동작하지 않음
 
-```csharp{3}
-interface INumber<TSelf> : ... IAdditionOperators<TSelf, TSelf, TSelf> ... {}
-
-interface IAdditionOperators<TSelf, TOther, TResult> where TSelf : IAdditionOperators<TSelf, TOther, TResult>?
-{
-  static abstract TResult operator +(TSelf left, TOther right);
-}
-
-```
-
-`IAdditionOperators`의 `TSelf` 타입 제약을 만족하지 못하기 때문에, (메소드의 타입 인자 `T`가 해당 제약을 만족해야함)
-
-# 👨‍💻 A. 타입 제약이 아닌 타입을 사용
-
-```csharp{1-3,8}
-// The type 'T' cannot be used as type parameter 'TSelf' in the generic type or method 'INumber<TSelf>'.
-// There is no boxing conversion or type parameter conversion from 'T' to 'System.Numerics.INumber<T>'.
-// [csharp11test]csharp(CS0314)
-
-// Operator '+' cannot be applied to operands of type 'INumber<T>' and 'INumber<T>'
-// [csharp11test]csharp(CS0019)
-
-public static INumber<T> Add<T>(INumber<T> left, INumber<T> right) => left + right;
-```
-
-위 코드는 동작하지 않음
-
-```csharp{3}
+```csharp{1,3}
 interface INumber<TSelf> : ... IAdditionOperators<TSelf, TSelf, TSelf> ... {}
 
 interface IAdditionOperators<TSelf, TOther, TResult> where TSelf : IAdditionOperators<TSelf, TOther, TResult>?
@@ -554,7 +528,53 @@ interface IAdditionOperators<TSelf, TOther, TResult> where TSelf : IAdditionOper
 
 ---
 
-# 👨‍💻 B. 고차함수가 더 간단하고 일반적일수 있음
+# 👨‍💻 A. 타입 제약이 아닌 타입으로 사용하면 안됨
+
+```csharp
+public static INumber<T> Add<T>(T left, T right) where T : INumber<T> => left + right; // ⭕ work!
+```
+
+- 모르면 맞는 규칙 추가 _(`TSelf`는 어디서 나온건데)_
+
+```csharp
+void doNumericThings(IFavorite t1, IFavorite t2)
+{
+  // A static virtual or abstract interface member can be accessed only on a type parameter.
+  // csharp(CS8926)
+  var sizeAtAge = IFavorite.SizeAtAge(2); // 💥error
+}
+
+void doNumericThings<T>(T t1, T t2) where T : IFavorite
+{
+  var sizeatage = T.SizeAtAge(2); // ⭕ work!
+}
+```
+
+- 복잡한 인터페이스 선언이 아니더라도 타입 파라미터를 통해서만 접근이 가능하도록 설정되어 있음
+
+---
+
+# 👨‍💻 B. 고차함수가 더 간단하고 일반적일 수 있음
+
+```fsharp
+type ISomeFunctionality<'T when 'T :> ISomeFunctionality<'T>> =
+    static abstract DoSomething: 'T -> 'T
+
+let SomeGenericThing<'T :> ISomeFunctionality<'T>> arg =
+    //...
+    'T.DoSomething(arg)
+    //...
+
+type MyType1 =
+    interface ISomeFunctionality<MyType1> with
+        static member DoSomething(x) = ...
+
+type MyType2 =
+    static member DoSomethingElse(x) = ...
+
+SomeGenericThing<MyType1> arg1
+SomeGenericThing<MyType2> arg2 // oh no, MyType2 doesn't have the interface! Stuck!
+```
 
 ---
 
@@ -577,3 +597,7 @@ interface IAdditionOperators<TSelf, TOther, TResult> where TSelf : IAdditionOper
 - 함께 일하기
 - 복잡성의 팽창
 - 자바랑 C# 볼수록 안비슷하다
+
+```
+
+```

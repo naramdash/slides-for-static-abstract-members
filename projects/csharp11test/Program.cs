@@ -86,14 +86,17 @@ using static Utils.ConsoleUtil;
   // [csharp11test]csharp(CS8926)
   // IInterface.GetYourNumber();
 
-  void doNumericThings(IFavorite t1, IFavorite t2)
+  // void doNumericThings(IFavorite t1, IFavorite t2)
+  // {
+  //   // A static virtual or abstract interface member 
+  //   // can be accessed only on a type parameter. 
+  //   // [csharp11test]csharp(CS8926)
+  //   var sizeatage = IFavorite.SizeAtAge(2);
+  // }
+  void doNumericThings<T>(T t1, T t2) where T : IFavorite
   {
-    // A static virtual or abstract interface member 
-    // can be accessed only on a type parameter. 
-    // [csharp11test]csharp(CS8926)
-    // var sizeatage = IFavorite.SizeAtAge(2);
+    var sizeatage = T.SizeAtAge(2);
   }
-  // INumber<T> Add<T>(INumber<T> left, INumber<T> right) => left + right;
 }
 
 #endregion
