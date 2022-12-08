@@ -22,7 +22,7 @@ drawings:
 css: unocss
 ---
 
-# C#11 static abstract members <br/> 이해와 대비
+# C#11 static abstract members <br/> 이해와 준비
 
 ---
 
@@ -506,7 +506,8 @@ interface IAdditionOperators<TSelf, TOther, TResult> where TSelf : IAdditionOper
 
 ```
 
-`IAdditionOperators`의 `TSelf` 타입 제약을 만족하지 못하기 때문에, (메소드의 타입 인자 `T`가 해당 제약을 만족해야함)
+- `INumber`의 `T`가 가져야하는 타입 제약 `TSelf: INumber<TSelf>` 을 만족하지 못하기 때문
+- 모르면 맞는 규칙 추가 _(`TSelf`는 어디서 나온건데)_
 
 ---
 
@@ -515,8 +516,6 @@ interface IAdditionOperators<TSelf, TOther, TResult> where TSelf : IAdditionOper
 ```csharp
 public static INumber<T> Add<T>(T left, T right) where T : INumber<T> => left + right; // ⭕ work!
 ```
-
-- 모르면 맞는 규칙 추가 _(`TSelf`는 어디서 나온건데)_
 
 <br />
 
@@ -544,7 +543,7 @@ void doNumericThings<T>(T t1, T t2) where T : IFavorite
 type ISomeFunctionality<'T when 'T :> ISomeFunctionality<'T>> =
     static abstract DoSomething: 'T -> 'T
 
-let SomeGenericThing<'T :> ISomeFunctionality<'T>> arg =
+let SomeGenericThing<'T when 'T :> ISomeFunctionality<'T>> (arg: 'T) =
     //...
     'T.DoSomething(arg)
     //...
@@ -559,6 +558,35 @@ type MyType2 =
 SomeGenericThing<MyType1> arg1
 SomeGenericThing<MyType2> arg2 // oh no, MyType2 doesn't have the interface! Stuck!
 ```
+
+- 인터페이스를 구현한 타입 안에서의 일반화
+- 추상화 메소드를 구현한 수가 10개 미만이라면, 고차함수를 사용하라
+
+---
+
+# 👨‍💻 B. 고차함수가 더 간단하고 일반적일 수 있음
+
+```fsharp
+fsi> let SomeGenericThing doSomething arg =
+       //...
+       doSomething arg
+       //...
+
+val SomeGenericThing: doSomeThing: ('a -> 'b) -> arg: 'a -> 'b
+```
+
+```fsharp
+type MyType1 =
+    static member DoSomething(x) = ...
+
+type MyType2 =
+    static member DoSomethingElse(x) = ...
+
+SomeGenericThing MyType1.DoSomething arg1
+SomeGenericThing MyType2.DoSomethingElse arg2
+```
+
+- 함수 전달이 더 짧은 구현이며 더 일반적임
 
 ---
 

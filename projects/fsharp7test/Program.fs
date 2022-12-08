@@ -14,6 +14,16 @@ let bbb: Double = 1
 type ISomeFunctionality<'T when 'T :> ISomeFunctionality<'T>> =
     static abstract DoSomething: 'T -> 'T
 
+let SomeGenericThing<'T when 'T :> ISomeFunctionality<'T>> (arg: 'T) =
+    //...
+    'T.DoSomething(arg)
+    //...
+
+// type ISinOperator<'T when 'T :> ISinOperator<'T>> =
+//     static abstract Sin: 'T -> 'T
+
+// let sin<'T when 'T :> ISinOperator<'T>> (x: 'T) = 'T.Sin(x)
+
 type Vector =
     { x: float
       y: float }
