@@ -15,7 +15,7 @@ info: |
 
   written by [naram.dash](https://github.com/naramdash)
 
-  F# |> I ❤️
+  [F# |> I ❤️](https://fsharp.org)
 # persist drawings in exports and build
 drawings:
   persist: false
@@ -24,6 +24,8 @@ css: unocss
 ---
 
 # C#11 static abstract members <br/> 이해와 준비
+
+{{(new Date(2022, 11, 9)).toLocaleDateString()}} {{"  "}} [naram.dash](https://github.com/naramdash)
 
 ---
 
@@ -378,6 +380,7 @@ struct Double :
 
 </div>
 
+<v-click>
 <div class='flex-1'>
 
 ## .net7.0
@@ -430,6 +433,7 @@ struct Double :
 
 </div>
 </div>
+</v-click>
 
 </div>
 
@@ -465,7 +469,7 @@ struct Double :
 <br />
 
 - 인터페이스는 점점 세분화될 것이며
-  - 나누어진 인터페이스를 이해하는 것은 프로그래머 개개인의 시간과 노력으로 지불됨
+  - 나누어진 인터페이스를 이해하는 것은 사용자 개개인의 시간과 노력으로 지불됨
 
 ---
 
@@ -606,30 +610,50 @@ SomeGenericThing MyType2.DoSomethingElse arg2
 
 ---
 
+# RFC의 지침
+
+- static abstract members가 가지는 고유의 제약을 이해하세요
+- 유형 분류 & 최대 추상화 충동에 지지마세요
+- 논쟁과 변경의 여지가 없는 형식에만 사용하세요
+- 정적 인터페이스와 비정적 인터페이스를 섞어쓰지마세요
+
+---
+
 # 들은 생각
 
 <span />
 
-- 쉽지 않은 기능
+<ul>
 
-  _만들기에도... 쓰기에도..._
-
-- 이젠 [AOT 컴파일](https://learn.microsoft.com/en-us/dotnet/core/deploying/native-aot/)인가?
-
-  > .NET은 역사적으로 이 공간을 피했습니다. Anders Hejlsberg가 C#2.0에서 의도적으로 결정한 것으로, 복잡성 대비 이점을 이유로 제안을 거부했습니다.이 RFC(Don Syme)의 초기 작성자가 참여하고 동의한 결정입니다.
-  >
-  > 모든 리플렉션 코드가 이제 정적 컴파일 시나리오에서 더 비싼 것으로 간주된 상황에서, 제한된 제네릭이 없는 경우 리플렉션이 자주 사용되었기 때문에 C#11 및 .NET 6/7은 이 결정을 수정했습니다.
-
-- 닷넷에도 타입 논쟁이?
-
-  > 특히 추상 수학에 입문한 사람들이 그러한 수학적 계층 구조를 좋아하는 것처럼 보이며, 불나방처럼 이끌린다.
-
+- 작성하기도, 쓰기도, 쉽지 않은 기능
 - 함께 일하기
 
   1. 이견이 없는 일반 수학 라이브러리를 만들 수 있을까?
-  2. 만들어진 라이브러리를 팀이 이해하고 활용해줄 수 있을까?
+  2. 만들어진 라이브러리(복잡성의 증가)를 팀이 이해하고 활용해줄 수 있을까?
 
 - Java랑 C# 볼수록 안 비슷하다...
+
+<br />
+
+<details>
+<summary>이젠 <a target="_blank" href="https://learn.microsoft.com/en-us/dotnet/core/deploying/native-aot/">AOT 컴파일</a>인가?  </summary>
+
+> .NET은 역사적으로 이 공간을 피했습니다. Anders Hejlsberg가 C#2.0에서 의도적으로 결정한 것으로, 복잡성 대비 이점을 이유로 제안을 거부했습니다.이 RFC(Don Syme)의 초기 작성자가 참여하고 동의한 결정입니다.
+>
+> 모든 리플렉션 코드가 이제 정적 컴파일 시나리오에서 더 비싼 것으로 간주된 상황에서, 제한된 제네릭이 없는 경우 리플렉션이 자주 사용되었기 때문에 C#11 및 .NET 6/7은 이 결정을 수정했습니다.
+
+</details>
+
+<br />
+
+<details>
+<summary>닷넷에도 타입 논쟁이? </summary>
+
+> 특히 추상 수학에 입문한 사람들이 그러한 수학적 계층 구조를 좋아하는 것처럼 보이며, 불나방처럼 이끌립니다.
+
+</details>
+
+</ul>
 
 ---
 
