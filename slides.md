@@ -26,23 +26,6 @@ css: unocss
 
 ---
 
-# 자기 소개
-
-## 현 직장
-
-- 군집 물류 관제 솔루션을 개발하는 DaimResearch
-- 웹 기반 프론트엔드
-  - 실시간 모니터링
-  - 리플레이 기능을 개발중입니다
-
-## 관심 있는 것
-
-- TypeScript & 웹 브라우저 기반 기술
-- 닷넷 & F#
-- 덜 일하고 많이 받는 기술
-
----
-
 # 발표 구성 및 목표
 
 - F# interfaces-with-static-abstract-members RFC 문서를 중심으로 내용 작성됨
@@ -512,10 +495,9 @@ struct Double :
 public static INumber<T> Add<T>(INumber<T> left, INumber<T> right) => left + right; // 💥error
 ```
 
-위 코드는 동작하지 않음
-
-```csharp{1,3}
-interface INumber<TSelf> : ... IAdditionOperators<TSelf, TSelf, TSelf> ... {}
+```csharp{1,4}
+interface INumber<TSelf> : ... IAdditionOperators<TSelf, TSelf, TSelf> ... where TSelf : INumber<TSelf>
+{}
 
 interface IAdditionOperators<TSelf, TOther, TResult> where TSelf : IAdditionOperators<TSelf, TOther, TResult>?
 {
@@ -535,6 +517,8 @@ public static INumber<T> Add<T>(T left, T right) where T : INumber<T> => left + 
 ```
 
 - 모르면 맞는 규칙 추가 _(`TSelf`는 어디서 나온건데)_
+
+<br />
 
 ```csharp
 void doNumericThings(IFavorite t1, IFavorite t2)
