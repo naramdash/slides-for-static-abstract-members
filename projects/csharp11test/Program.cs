@@ -98,5 +98,4 @@ using static Utils.ConsoleUtil;
     var sizeatage = T.SizeAtAge(2);
   }
 }
-
 #endregion

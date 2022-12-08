@@ -4,17 +4,18 @@ theme: default
 # random image from a curated Unsplash collection by Anthony
 # like them? see https://unsplash.com/collections/94734566/slidev
 # apply any windi css classes to the current slide
-class: "text-center"
+class: "text-right"
 # https://sli.dev/custom/highlighters.html
 highlighter: shiki
 # show line numbers in code blocks
-lineNumbers: false
+lineNumbers: true
 # some information about the slides, markdown enabled
 info: |
-  ## Slidev Starter Template
-  Presentation slides for developers.
+  ## C#11 static abstract members
 
-  Learn more at [Sli.dev](https://sli.dev)
+  written by [naram.dash](https://github.com/naramdash)
+
+  F# |> I ❤️
 # persist drawings in exports and build
 drawings:
   persist: false
@@ -60,10 +61,6 @@ css: unocss
 - 매력적?
 - 위험한?
 - 아름다움?
-
-<!--
-123123
--->
 
 ---
 
@@ -301,7 +298,7 @@ void doNumericThings<T1, T2>(T1 t1, T2 t2)
 
 연산자가 정적 메소드일 필요가 없다는 것이 큰 차이점, 그리고 implicit이 scala에서 코드 축약의 핵심?
 
-- Scala는 인스턴스 메소드가 메소드로서 동작
+- Scala는 인스턴스 메소드가 연산자로서 동작
 - 타입별로 암시적 변환 코드를 구현하여 인자의 타입을 맞출 수도 있고 [(C#도 마찬가지)](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/user-defined-conversion-operators)
 - 제네릭, 트레이트, 암시적 파라미터를 통해
   - 기존 타입에 대한 서브 타이핑 없이 기능을 확장하고
@@ -438,7 +435,7 @@ struct Double :
 
 ---
 
-# 💥 1. 최대 추상화 충동을 유발
+# <carbon-fire /> 1. 최대 추상화 충동을 유발
 
 - static abstract members와 일반 수학은 공통적으로
   - 더 많은 추상화를 통해
@@ -460,7 +457,7 @@ struct Double :
 
 ---
 
-# 💥 2. 마이크로 인터페이스의 확산과 후속 요구
+# <carbon-fire /> 2. 마이크로 인터페이스의 확산과 후속 요구
 
 - 일반 수학의 표현법과 활용을 다른 분야에서 적용하길 바랄 것이고
   - 그 분야(라이브러리, 프레임워크)들은 최대 추상화를 구현하기 위한 리소스를 소모해야할 것
@@ -472,7 +469,7 @@ struct Double :
 
 ---
 
-# 💥 3. 끊나지 않는 **적합한** 일반화 지점 찾기
+# <carbon-fire /> 3. 끊나지 않는 **적합한** 일반화 지점 찾기
 
 - 추상화의 정도는 절대로 적합한 지점을 찾을 수 없으며
 - 항상 비생산적인 논쟁을 불러일으킬 것이며
@@ -480,7 +477,7 @@ struct Double :
 
 ---
 
-# 👨‍💻 A. 타입 제약이 아닌 타입으로 사용
+# <carbon-code-hide /> A. 타입 제약이 아닌 타입으로 사용
 
 하면 안됨
 
@@ -511,7 +508,7 @@ interface IAdditionOperators<TSelf, TOther, TResult> where TSelf : IAdditionOper
 
 ---
 
-# 👨‍💻 A. 타입 제약이 아닌 타입으로 사용하면 안됨
+# <carbon-code-hide /> A. 타입 제약이 아닌 타입으로 사용하면 안됨
 
 ```csharp
 public static INumber<T> Add<T>(T left, T right) where T : INumber<T> => left + right; // ⭕ work!
@@ -537,7 +534,7 @@ void doNumericThings<T>(T t1, T t2) where T : IFavorite
 
 ---
 
-# 👨‍💻 B. 고차함수가 더 간단하고 일반적일 수 있음
+# <carbon-code-hide /> B. 고차함수가 더 간단하고 일반적일 수 있음
 
 ```fsharp
 type ISomeFunctionality<'T when 'T :> ISomeFunctionality<'T>> =
@@ -559,18 +556,16 @@ SomeGenericThing<MyType1> arg1
 SomeGenericThing<MyType2> arg2 // oh no, MyType2 doesn't have the interface! Stuck!
 ```
 
-- 인터페이스를 구현한 타입 안에서의 일반화
+- 정적멤버인터페이스를 구현한 타입 안에서의 일반화
 - 추상화 메소드를 구현한 수가 10개 미만이라면, 고차함수를 사용하라
 
 ---
 
-# 👨‍💻 B. 고차함수가 더 간단하고 일반적일 수 있음
+# <carbon-code-hide /> B. 고차함수가 더 간단하고 일반적일 수 있음
 
 ```fsharp
 fsi> let SomeGenericThing doSomething arg =
-       //...
        doSomething arg
-       //...
 
 val SomeGenericThing: doSomeThing: ('a -> 'b) -> arg: 'a -> 'b
 ```
@@ -590,26 +585,55 @@ SomeGenericThing MyType2.DoSomethingElse arg2
 
 ---
 
-# 👨‍💻 C. 정적 추상 멤버의 구현은 매개변수화 되지 않으며 어느것에도 닫히지 않는다.
+# <carbon-code-hide /> C. 닫힌 연산에만 사용하세요
+
+- 정적 메소드가 가지는 한계
+  - 계산에 영향을 주는 정보는 파라미터 안에만 존재
+    - 암시적인 컨텍스트 (인스턴스 멤버)
+    - 전역 상태를 쉽게 사용할 수 없음
+  - 특정 정보와 함께 인스턴스화 될 수 없음 (`ParserV1`, `ParserV2`)
+
+<br />
+
+- 한계로 인한 협소한 적용 범위
+  - [연산이 내부적으로 닫혀 있으며](http://wanochoi.com/?p=5061)
+  - 구현 내용에 반박의 여지가 _(미래에도)_ 없는
+  - 영역에서만 사용해야한다
+
+<br />
+
+**요구사항의 변경이 존재하거나 컨텍스트에 의존해야하는 도메인 영역에서는 절대 사용하지 말 것**
 
 ---
 
-# RFC의 결론
+# 들은 생각
 
-- 안써도 문제없었다는 언어들~ 문장 발췌
-- 그리고 도입했으니 어떻게하라는 그 맨 첨 리스트 다시 상기
+<span />
 
----
+- 쉽지 않은 기능
 
-# 나의 평가
+  _만들기에도... 쓰기에도..._
 
-- 또 하나 기능이 늘었다
-- 일반화 프로그래밍의 도입
-- 커뮤니티의 고인물화?
+- 이젠 [AOT 컴파일](https://learn.microsoft.com/en-us/dotnet/core/deploying/native-aot/)인가?
+
+  > .NET은 역사적으로 이 공간을 피했습니다. Anders Hejlsberg가 C#2.0에서 의도적으로 결정한 것으로, 복잡성 대비 이점을 이유로 제안을 거부했습니다.이 RFC(Don Syme)의 초기 작성자가 참여하고 동의한 결정입니다.
+  >
+  > 모든 리플렉션 코드가 이제 정적 컴파일 시나리오에서 더 비싼 것으로 간주된 상황에서, 제한된 제네릭이 없는 경우 리플렉션이 자주 사용되었기 때문에 C#11 및 .NET 6/7은 이 결정을 수정했습니다.
+
+- 닷넷에도 타입 논쟁이?
+
+  > 특히 추상 수학에 입문한 사람들이 그러한 수학적 계층 구조를 좋아하는 것처럼 보이며, 불나방처럼 이끌린다.
+
 - 함께 일하기
-- 복잡성의 팽창
-- 자바랑 C# 볼수록 안비슷하다
 
-```
+  1. 이견이 없는 일반 수학 라이브러리를 만들 수 있을까?
+  2. 만들어진 라이브러리를 팀이 이해하고 활용해줄 수 있을까?
 
-```
+- Java랑 C# 볼수록 안 비슷하다...
+
+---
+
+# 남은 의문
+
+- IWSAM implementations are static
+  - 제네릭을 사용하지만 정적인 구현?
