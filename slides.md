@@ -14,7 +14,7 @@ drawings:
 css: unocss
 title: C#11 static abstract members 이해와 대비
 layout: image
-image: ./public/intro.jpg
+image: ./public/Intro.jpg
 ---
 
 <h1 style="color: black; position: absolute; bottom: 3em"> C#11 static abstract members <br /> 이해와 대비</h1>
