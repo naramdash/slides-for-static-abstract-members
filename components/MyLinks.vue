@@ -6,7 +6,7 @@
 
 <style scoped>
 div {
-  position: fixed;
+  position: absolute;
   bottom: 0;
   margin-bottom: 1em;
   font-size: smaller;

@@ -4,7 +4,7 @@ class: text-right
 highlighter: shiki
 lineNumbers: true
 info: |
-  ## C#11 static abstract members
+  ## C#11 static abstract members <br/> 이해와 대비
 
   written by [naram.dash](https://github.com/naramdash)
 
@@ -12,12 +12,12 @@ info: |
 drawings:
   persist: false
 css: unocss
-title: C#11 static abstract members <br/> 이해와 준비
+title: C#11 static abstract members 이해와 대비
+layout: image
+image: ./public/intro.jpg
 ---
 
-# C#11 static abstract members <br/> 이해와 준비
-
-{{(new Date(2022, 11, 9)).toLocaleDateString()}} {{"  "}} [naram.dash](https://github.com/naramdash)
+<h1 style="color: black; position: absolute; bottom: 3em"> C#11 static abstract members <br /> 이해와 대비</h1>
 
 <!--
 안녕하세요
