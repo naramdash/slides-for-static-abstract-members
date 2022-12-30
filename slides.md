@@ -3,7 +3,7 @@ theme: default
 class: text-right
 highlighter: shiki
 lineNumbers: true
-favicon: false
+favicon: "#"
 fonts:
   sans: "sans"
   local: "sans"
