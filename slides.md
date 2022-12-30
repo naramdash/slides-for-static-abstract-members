@@ -3,6 +3,10 @@ theme: default
 class: text-right
 highlighter: shiki
 lineNumbers: true
+favicon: false
+fonts:
+  sans: "sans"
+  local: "sans"
 info: |
   ## C#11 static abstract members <br/> 이해와 대비
 
