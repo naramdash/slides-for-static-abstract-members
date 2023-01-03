@@ -1,0 +1,29 @@
+{
+  "folders": [
+    {
+      "name": "slide",
+      "path": ".."
+    },
+    {
+      "name": "notebooks",
+      "path": "../projects/notebooks"
+    },
+    {
+      "name": "csharp 11 test",
+      "path": "../projects/csharp11test"
+    },
+    {
+      "name": "fsharp 7 test",
+      "path": "../projects/fsharp7test"
+    },
+    {
+      "name": "java static method",
+      "path": "../projects/javastaticmethod"
+    },
+    {
+      "name": "scala implicit",
+      "path": "../projects/scalaimplicit"
+    }
+  ],
+  "settings": {}
+}
