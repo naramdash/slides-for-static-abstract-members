@@ -218,22 +218,22 @@ static abstract members 흠 이건 C# OOP에서 본 키워드들인데 뭔가 3�
 # <icon-park-file-code /> static abstract members 단순 예제 (1)
 
 ```csharp
-interface IFavorite
+interface IAnimal
 {
   static abstract string Favorite { get; }
   static virtual int SizeAtAge(int age) => age;
 }
 
-class Dog : IFavorite
+class Dog : IAnimal
 {
   public static string Favorite { get => "Bones"; }
   public static int SizeAtAge(int age) => age * 2;
 }
-class Cat : IFavorite
+class Cat : IAnimal
 {
   public static string Favorite { get => "Fish"; }
 }
-class Tiger : Cat, IFavorite
+class Tiger : Cat, IAnimal
 {
   new public static string Favorite { get => "Human"; }
   public static int SizeAtAge(int age) => age * 4;
@@ -244,7 +244,7 @@ class Tiger : Cat, IFavorite
 <!--
 바로 코드로 들어가겠습니다.
 
-IFavorite라는 인터페이스를 선언하고
+IAnimal라는 인터페이스를 선언하고
 
 페이버리트는 추상으로, 사이즈엣에이지는 버추얼로 구현과 함께 작성했습니다.
 
@@ -256,27 +256,27 @@ IFavorite라는 인터페이스를 선언하고
 # <icon-park-file-code /> static abstract members 단순 예제 (2)
 
 ```csharp
-void whatIsYourFavorite<T>(T iHaveAFavorite) where T : IFavorite
+void describeAnimal<T>(T animal) where T : IAnimal
 {
-  Console.WriteLine($"{iHaveAFavorite.GetType().Name}'s favorite is {T.Favorite}");
-  Console.WriteLine($"{iHaveAFavorite.GetType().Name}': size at age 5 :  {T.SizeAtAge(5)}");
+  Console.WriteLine($"{animal.GetType().Name}'s favorite is {T.Favorite}");
+  Console.WriteLine($"{animal.GetType().Name}'s size at age 5: {T.SizeAtAge(5)}");
 }
 
-whatIsYourFavorite(new Dog());
+describeAnimal(new Dog());
 // Dog's favorite is Bones
-// Dog': size at age 5 :  10
+// Dog': size at age 5: 10
 
-whatIsYourFavorite(new Cat());
+describeAnimal(new Cat());
 // Cat's favorite is Fish
-// Cat': size at age 5 :  5
+// Cat's size at age 5: 5
 
-whatIsYourFavorite(new Tiger());
+describeAnimal(new Tiger());
 // Tiger's favorite is Human
-// Tiger': size at age 5 :  20
+// Tiger's size at age 5: 20
 ```
 
 <!--
-자 그럼 IFavorite로 파라미터 타입에 제약을 건 함수를 만든 뒤에
+자 그럼 IAnimal로 파라미터 타입에 제약을 건 함수를 만든 뒤에
 
 타입파라미터를 통해 각 정적 프로퍼티와 메소드를 불러올 수 있는 것을 확인하실 수 있습니다.
 -->
@@ -725,16 +725,16 @@ public static INumber<T> Add<T>(T left, T right) where T : INumber<T> => left + 
 <br />
 
 ```csharp
-void doNumericThings(IFavorite t1, IFavorite t2)
+void getSizeAtAge(IAnimal t1, int age)
 {
   // A static virtual or abstract interface member can be accessed only on a type parameter.
   // csharp(CS8926)
-  var sizeAtAge = IFavorite.SizeAtAge(2); // 💥error
+  var sizeAtAge = IAnimal.SizeAtAge(age); // 💥error
 }
 
-void doNumericThings<T>(T t1, T t2) where T : IFavorite
+void getSizeAtAge<T>(T t1, int age) where T : IAnimal
 {
-  var sizeatage = T.SizeAtAge(2); // ⭕ work!
+  var sizeatage = T.SizeAtAge(age); // ⭕ work!
 }
 ```
 
