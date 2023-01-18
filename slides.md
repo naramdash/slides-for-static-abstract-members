@@ -5,8 +5,8 @@ highlighter: shiki
 lineNumbers: true
 favicon: "#"
 fonts:
-  sans: "sans"
-  local: "sans"
+  sans: "Nanum Gothic"
+  mono: "Fira Code"
 info: |
   ## C#11 static abstract members <br/> 이해와 대비
 
@@ -26,37 +26,60 @@ image: ./Intro.jpg
 <!--
 안녕하세요
 
-C#11의 static abstract members 이해와 준비 발표를 시작하겠습니다.
+지금부터 C#11 스태틱 어브스트랙트 멤버에 대한 이해와 대비 세션을 시작하겠습니다
+
+저는 발표를 맡게된 김주호입니다.
+
+(10초)
+
 -->
 
 ---
 
-# 발표 구성 및 목표
+## <fluent-emoji-nerd-face /> 발표자
+
+김주호
+
+## <fluent-emoji-link /> 발표 자료
+
+[**http**://slides.juho.kim](http://slides.juho.kim)
+
+---
+
+## <fluent-emoji-bullseye /> 목표
+
+static abstract members 기능의 장점과 주의사항을 함께 파악
+
+## <fluent-emoji-books /> 구성
 
 - F# interfaces-with-static-abstract-members RFC 문서를 중심으로 내용 작성됨
 - C# static abstract interface 기능 이해하기
 - 다른 언어의 비슷한 기능 둘러보기
-- 우려되는 점을 알아보기
+- 도입과정에서 나타난 우려 및 주의사항 살펴보기
 
 <div style="margin-top: 14em; color: aqua;">
 틀린 내용이 있다면 봐주십시오... 😿
 </div>
 
 <!--
-이번 발표는
+C#11은 Generic Math을 지원하기 위해 static abstract members라는 새로운 언어 기능을 도입하였습니다.
 
-interface with static abstract member 기능에 대한 F#의 RFC 문서의 내용을 중심으로 작성되었습니다.
+이 기능은 C#의 표현력을 더욱 증가시켜주었지만 도입과정에서 우려사항이 있었습니다.
+
+해당 내용이 자세히 표현된 F# RFC 문서와 함께 이 기능의 장점과 주의사항을 함께 파악해보겠습니다.
+
+발표 내용는 interface with static abstract member 기능에 대한 F#의 RFC 문서를 중심으로 작성되었습니다.
 
 먼저 C# static abstract interface 기능을 이해한 후,
 
-다른 언어의 비슷한 기능들을 알아보고
+다른 언어들의 비슷한 기능들을 알아보고
 
-이 기능에 대해 우려되는 사항을 알아보겠습니다.
+이 기능에 대한 우려 및 주의사항에 대해서 알아보겠습니다.
 -->
 
 ---
 
-# 왜 조사를 시작했는가?
+# <fluent-emoji-magnifying-glass-tilted-left/> 왜 조사를 시작했는가?
 
 > Sang Kil Cha | F# Korea Slack
 >
@@ -96,7 +119,7 @@ F#이 7으로 업데이트 되었다고?
 
 ---
 
-# F#7에서의 경고
+# <fluent-emoji-warning /> F#7에서의 경고
 
 ## [F# RFC FS-1124 - Interfaces with static abstract members](https://github.com/fsharp/fslang-design/blob/main/FSharp-7.0/FS-1124-interfaces-with-static-abstract-members.md#guidance)
 
@@ -134,11 +157,11 @@ F# 관련기사에서도 그 기능의 여파를 확인할 수 있었는데요
 
 ---
 
-# 이때의 감상
+# <fluent-emoji-thinking-face /> 이때의 감상
 
 - 왜 이번에 별 예고도 없이 F#이 6 -> 7 버전업이 되었는가
   - [심지어 별로 추가된 기능도 없음](https://github.com/fsharp/fslang-design/tree/main/FSharp-7.0)
-- static abstract members가 뭔가
+- static abstract members가 무엇인가
   - 어디에 쓰는 건데
 - 왜 이렇게 부정적인가
   - [null checking operator `!!`](https://github.com/dotnet/runtime/pull/64720) 같은 기능이 또 나왔나?
@@ -157,7 +180,7 @@ static abstract members 흠 이건 C# OOP에서 본 키워드들인데 뭔가 3�
 
 ---
 
-# static abstract members란?
+# <codicon-symbol-interface /> static abstract members란?
 
 .NET 6에서 미리보기 기능으로 들어갔으며 .NET 7에서 정식 기능으로 편입
 
@@ -192,7 +215,7 @@ static abstract members 흠 이건 C# OOP에서 본 키워드들인데 뭔가 3�
 
 ---
 
-# static abstract members 단순 예제 (1)
+# <icon-park-file-code /> static abstract members 단순 예제 (1)
 
 ```csharp
 interface IFavorite
@@ -230,7 +253,7 @@ IFavorite라는 인터페이스를 선언하고
 
 ---
 
-# static abstract members 단순 예제 (2)
+# <icon-park-file-code /> static abstract members 단순 예제 (2)
 
 ```csharp
 void whatIsYourFavorite<T>(T iHaveAFavorite) where T : IFavorite
@@ -260,9 +283,9 @@ whatIsYourFavorite(new Tiger());
 
 ---
 
-# Generic Math란?
+# <fluent-emoji-input-numbers /> [Generic Math](https://learn.microsoft.com/en-us/dotnet/standard/generics/math)란?
 
-[Generic Math](https://learn.microsoft.com/en-us/dotnet/standard/generics/math)
+<span />
 
 ```csharp
 static T Add<T>(T left, T right) where T : INumber<T>
@@ -271,7 +294,7 @@ static T Add<T>(T left, T right) where T : INumber<T>
 }
 ```
 
-- 수학적 연산을 지원하는 파라미터의 타입을 제네릭하게 선언하고
+- 제네릭 타입 혹은 메소드의 타입 파라미터에 "수학적 연산을 구현하도록" 제약
 - 위 제약 안에서 연산자를 통한 표현식 지원
 
 <!--
@@ -284,7 +307,7 @@ static T Add<T>(T left, T right) where T : INumber<T>
 
 ---
 
-# Generic Math의 static abstract members 필요성
+# <fluent-emoji-red-question-mark /> static abstract members 필요 이유
 
 <span />
 
@@ -299,7 +322,7 @@ static T Add<T>(T left, T right) where T : INumber<T>
 _Generic Math 기능이 원하는 표현 방식_
 
 1. 연산자를 통한 수학적 표현
-2. 피연산자는 현재 스코프에서는 일반 인터페이스로 타입 제약된 상태로 형식이 매우 자유로움
+2. 피연산자는 현재 스코프에서는 인터페이스를 구현한 오브젝트이며, 실제 타입은 매우 다양할 수 있음
 
 _을 위해 인터페이스에 연산자를 선언하고 싶었구나!_
 
@@ -314,7 +337,7 @@ C#에서 연산자 오버로딩은 반드시 public와 static 한정자와 함�
 
 ---
 
-# 연산자와 관계없는 Generic Math
+# <fluent-emoji-red-question-mark /> 연산자와 관계없는 Generic Math에도...
 
 <span />
 
@@ -356,7 +379,7 @@ void doNumericThings<T1, T2>(T1 t1, T2 t2)
 
 ---
 
-# Generic Math가 가져올 변화
+# <fluent-emoji-soon-arrow /> Generic Math가 가져올 변화
 
 <span />
 
@@ -387,7 +410,7 @@ void doNumericThings<T1, T2>(T1 t1, T2 t2)
 
 ---
 
-# Java: Static Method in Interface
+# <logos-java /> Java: Static Method in Interface
 
 근데 이름만 같고 목적과 사용법이 매우 다르다
 
@@ -423,7 +446,7 @@ void doNumericThings<T1, T2>(T1 t1, T2 t2)
 
 ---
 
-# Scala: method, implicit, trait
+# <logos-scala /> Scala: method, implicit, trait
 
 연산자가 정적 메소드일 필요가 없다는 것이 큰 차이점, 그리고 implicit이 scala에서 코드 축약의 핵심?
 
@@ -462,7 +485,7 @@ C#과의 차이점으로는 스칼라는 인스턴스의 메소드가 연산자�
 
 ---
 
-# F#: Statically Resolved Type Parameters
+# <logos-fsharp /> F#: Statically Resolved Type Parameters
 
 컴파일 시간에 실제 타입이 정해지는 타입 파라미터, [제네릭은 런타임 시점에서 결정](https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/generics/generics-in-the-run-time)
 
@@ -479,8 +502,8 @@ val it: int = 6
 fsi> add -2.0  4.7 ;;
 val it: float = 2.7
 
-fsi> add "123" "가나다" ;;
-val it: string = "123가나다"
+fsi> add "123" "abc" ;;
+val it: string = "123abc"
 ```
 
 - 타입 파라미터가 특정 멤버를 가지게 제약할 수 있음
@@ -504,7 +527,7 @@ val it: string = "123가나다"
 
 ---
 
-# `double` in .net6.0 vs .net7.0
+# `double` in .net6.0 <fluent-emoji-vs-button /> .net7.0
 
 <div class="flex flex-row w-full gap-4" >
 
@@ -596,7 +619,7 @@ struct Double :
 
 ---
 
-# <carbon-fire /> 1. 최대 추상화 충동을 유발
+# <fluent-emoji-fire /> 1. 최대 추상화 충동을 유발
 
 - static abstract members와 일반 수학은 공통적으로
   - 더 많은 추상화를 통해
@@ -622,7 +645,7 @@ struct Double :
 
 ---
 
-# <carbon-fire /> 2. 마이크로 인터페이스의 확산과 후속 요구
+# <fluent-emoji-fire /> 2. 마이크로 인터페이스의 확산과 후속 요구
 
 - 일반 수학의 표현법과 활용을 다른 분야에서 적용하길 바랄 것이고
   - 그 분야(라이브러리, 프레임워크)들은 최대 추상화를 구현하기 위한 리소스를 소모해야할 것
@@ -638,7 +661,7 @@ struct Double :
 
 ---
 
-# <carbon-fire /> 3. 끊나지 않는 **적합한** 일반화 지점 찾기
+# <fluent-emoji-fire /> 3. 끊나지 않는 **적합한** 일반화 지점 찾기
 
 - 추상화의 정도는 절대로 적합한 지점을 찾을 수 없으며
 - 항상 비생산적인 논쟁을 불러일으킬 것이며
@@ -650,7 +673,7 @@ struct Double :
 
 ---
 
-# <carbon-code-hide /> A. 타입 제약이 아닌 타입으로 사용
+# <fluent-emoji-no-entry /> A. 타입 제약이 아닌 타입으로 사용
 
 하면 안됨
 
@@ -693,7 +716,7 @@ interface IAdditionOperators<TSelf, TOther, TResult> where TSelf : IAdditionOper
 
 ---
 
-# <carbon-code-hide /> A. 타입 제약이 아닌 타입으로 사용하면 안됨
+# <fluent-emoji-no-entry /> A. 타입 제약이 아닌 타입으로 사용하면 안됨
 
 ```csharp
 public static INumber<T> Add<T>(T left, T right) where T : INumber<T> => left + right; // ⭕ work!
@@ -727,7 +750,7 @@ void doNumericThings<T>(T t1, T t2) where T : IFavorite
 
 ---
 
-# <carbon-code-hide /> B. 고차함수가 더 간단하고 일반적일 수 있음
+# <fluent-emoji-no-entry /> B. 고차함수가 더 간단하고 일반적일 수 있음
 
 ```fsharp
 type ISomeFunctionality<'T when 'T :> ISomeFunctionality<'T>> =
@@ -763,7 +786,7 @@ SomeGenericThing<MyType2> arg2 // oh no, MyType2 doesn't have the interface! Stu
 
 ---
 
-# <carbon-code-hide /> B. 고차함수가 더 간단하고 일반적일 수 있음
+# <fluent-emoji-no-entry /> B. 고차함수가 더 간단하고 일반적일 수 있음
 
 ```fsharp
 fsi> let SomeGenericThing doSomething arg =
@@ -800,7 +823,7 @@ SomeGenericThing MyType2.DoSomethingElse arg2
 
 ---
 
-# <carbon-code-hide /> C. 닫힌 연산에만 사용하세요
+# <fluent-emoji-no-entry /> C. 닫힌 연산에만 사용하세요
 
 - 정적 메소드가 가지는 한계
   - 계산에 영향을 주는 정보는 파라미터 안에만 존재
@@ -835,7 +858,7 @@ C#, 닷넷에서 연산자는 정적메소드이기 때문에 가지는 태생�
 
 ---
 
-# RFC의 지침
+# <fluent-emoji-check-mark /> [F# RFC의 지침](https://github.com/fsharp/fslang-design/blob/main/FSharp-7.0/FS-1124-interfaces-with-static-abstract-members.md#guidance)
 
 - static abstract members가 가지는 고유의 제약을 이해하세요
 - 유형 분류 & 최대 추상화 충동에 지지마세요
@@ -850,7 +873,7 @@ C#, 닷넷에서 연산자는 정적메소드이기 때문에 가지는 태생�
 
 ---
 
-# 들은 생각
+# <fluent-emoji-thought-balloon /> 들은 생각
 
 <span />
 
@@ -894,7 +917,7 @@ C#, 닷넷에서 연산자는 정적메소드이기 때문에 가지는 태생�
 
 ---
 
-# 남은 의문
+# <fluent-emoji-white-question-mark /> 남은 의문
 
 - IWSAM implementations are static
   - 제네릭을 사용하지만 정적인 구현?
