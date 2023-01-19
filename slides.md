@@ -761,12 +761,12 @@ let SomeGenericThing<'T when 'T :> ISomeFunctionality<'T>> (arg: 'T) =
     'T.DoSomething(arg)
     //...
 
-type MyType1 =
+type MyType1() =
     interface ISomeFunctionality<MyType1> with
         static member DoSomething(x) = ...
 
-type MyType2 =
-    static member DoSomethingElse(x) = ...
+type MyType2() =
+    static member DoSomethingElseDifference(x) = ...
 
 SomeGenericThing<MyType1> arg1
 SomeGenericThing<MyType2> arg2 // oh no, MyType2 doesn't have the interface! Stuck!
